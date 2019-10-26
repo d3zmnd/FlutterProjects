@@ -26,19 +26,19 @@ _addNewItem(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            ),
-            FlatButton(
-              child: Text('Add'),
-              onPressed: () {
-                setState(() {
-                  if (_textFieldController.text.length > 0) {
-                    items.add(_textFieldController.text);
-                    _textFieldController.clear();
-                  }
-                });
-                Navigator.of(context).pop();
-              },
-            )
+          ),
+          FlatButton(
+            child: Text('Add'),
+            onPressed: () {
+              setState(() {
+                if (_textFieldController.text.length > 0) {
+                  items.add(_textFieldController.text);
+                  _textFieldController.clear();
+                }
+              });
+              Navigator.of(context).pop();
+            },
+          )
         ],
       );
     }
@@ -66,7 +66,7 @@ _promptRemoveTodoItem(int index) {
               _removeTodoItem(index);
               Navigator.of(context).pop();
             }
-          )
+          ),
         ]
       );
     }
@@ -74,13 +74,40 @@ _promptRemoveTodoItem(int index) {
 }  
 
 Widget _buildTodoList() {
-  return ListView.builder(
-    itemCount: items.length,
-    itemBuilder: (BuildContext ctxt, int index) {
-      
-      return ListTile(title: Text(items[index]),
-      onLongPress: () => _promptRemoveTodoItem(index));
+  final ordinal = List<String>.generate(40, (i) => "${i + 1}");
+  return Container(       
+    padding: const EdgeInsets.all(3), 
+    child: ListView.builder(     
+      itemCount: items.length,
+      itemBuilder: (BuildContext ctxt, int index) {
+        final item = items[index];
+        return Dismissible(
+          child: Card(        
+            color: Colors.orange.shade400,
+            child:  ListTile(
+              title: Text(items[index]),
+              onLongPress: ()=> _promptRemoveTodoItem(index), 
+              // onTap: ()=> _promptEditTodoItem(index),            
+              trailing: new IconButton(
+                icon: new Icon(Icons.delete, color: Colors.black87, size: 36.0,), 
+                onPressed: ()=> _promptRemoveTodoItem(index)
+              ),
+              leading: CircleAvatar(
+                backgroundColor: Colors.lightBlue.shade100,
+                child: Text('${ordinal[index]}'),
+                foregroundColor: Colors.black87,
+                radius: 16,
+              ),
+            ),
+          ),
+          direction: DismissDirection.horizontal,
+                key: Key(item),
+                onDismissed: (direction) => _removeTodoItem(index),
+          );
+          
       }
+    ),
+     
   );
 }
 
@@ -90,6 +117,7 @@ Widget _buildTodoList() {
       appBar: AppBar(
         title: Text('Todo List')
       ),
+      
       body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
         onPressed: ()=>_addNewItem(context),

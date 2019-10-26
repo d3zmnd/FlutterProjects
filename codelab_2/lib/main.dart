@@ -10,7 +10,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Todo List',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.dark,        
+        accentColor: Colors.lightBlue[300],
+        highlightColor: Colors.lightBlue[800],
+        primaryColor: Colors.black,
+       
       ),
       home: TodoList(),
     );
