@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'widgets/todo_list.dart';
+import 'colors.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,9 +13,9 @@ class MyApp extends StatelessWidget {
       title: 'Todo List',
       theme: ThemeData(
         brightness: Brightness.dark,        
-        accentColor: Colors.lightBlue[300],
-        highlightColor: Colors.lightBlue[800],
-        primaryColor: Colors.black,
+        accentColor: accentColor,
+        highlightColor: accentColor,
+        primaryColor: primaryColor,
        
       ),
       home: TodoList(),
