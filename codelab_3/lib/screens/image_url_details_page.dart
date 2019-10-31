@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class UrlDetailsPage extends StatelessWidget {
   const UrlDetailsPage({
-    Key key, @required this.assetPath
+    @required this.assetPath,
+    Key key
     }) : assert(assetPath != null),
     super(key: key);
-
   final String assetPath;
   
   @override
