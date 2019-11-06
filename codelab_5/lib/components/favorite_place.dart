@@ -41,8 +41,19 @@ class _CreatePlacePageState extends State<CreatePlacePage> {
   String _placeName = '';
   String _placeDescription = '';
 
+  Future<dynamic> _getPhoto() async {
+    final File image = await ImagePicker.pickImage(source: ImageSource.camera);
+    return setState(() {
+      _photo = image;
+    });
+  }
   
-
+  Future<dynamic> _selectPhoto() async {
+    final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    return setState(() {
+      _photo = image;
+    });
+  }
   void _save(BuildContext context) {
     if (_photo == null || _placeDescription.isEmpty || _placeName.isEmpty) {
       Scaffold.of(context).showSnackBar(
@@ -68,13 +79,13 @@ class _CreatePlacePageState extends State<CreatePlacePage> {
       body:  Builder(builder: (BuildContext context) {
         return SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: Column(
               children: <Widget>[
-                if (_photo != null) Image.file(_photo),
-                const SizedBox(
-                  height: 15,
-                ),                
+                if (_photo != null) Padding(
+                  padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Image.file(_photo),
+                ),
                 TextField(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(20.0),
@@ -107,12 +118,11 @@ class _CreatePlacePageState extends State<CreatePlacePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    buttonSelect('Select picture'),
-                    buttonGet('Take picture'),
-                    buttonCreate('Create')                    
+                    buttonSelect(),
+                    buttonGet(),
+                    buttonCreate()                    
                   ]
                 ),
-                
               ],
             ),
           ),
@@ -122,41 +132,26 @@ class _CreatePlacePageState extends State<CreatePlacePage> {
     );
   }
 
-   dynamic buttonGet(String text){
-    return RaisedButton(
-      child: Text('$text'),
+   dynamic buttonGet() => RaisedButton(
+      child: const Text('Select picture'),
       onPressed: ()  => _getPhoto(),
       textColor: Colors.white,
       color: Colors.deepOrangeAccent,                    
     );
-  }
-  dynamic buttonSelect(String text){
+  dynamic buttonSelect(){
     return RaisedButton(
-      child: Text('$text'),
+      child: const Text('Take picture'),
       onPressed: ()  => _selectPhoto(),
       textColor: Colors.white,
       color: Colors.deepOrangeAccent,                    
     );
   }
-  dynamic buttonCreate(String text){
+  dynamic buttonCreate(){
     return  RaisedButton(
-      child: Text('$text'),
+      child: const Text('Create'),
       onPressed: () =>_save(context),
       textColor: Colors.white,
       color: Colors.red[900],
     );
-  }
-  Future<dynamic> _getPhoto() async {
-    final File image = await ImagePicker.pickImage(source: ImageSource.camera);
-    return setState(() {
-      _photo = image;
-    });
-  }
-  
-  Future<dynamic> _selectPhoto() async {
-    final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    return setState(() {
-      _photo = image;
-    });
   }
 }
