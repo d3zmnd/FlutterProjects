@@ -9,11 +9,11 @@ class UrlDetailsPage extends StatelessWidget {
   final String assetPath;
   
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) =>
+    Scaffold(
       appBar: AppBar(title: const Text('Details'),),
       body: Center(
         child: Image.network(assetPath),)
     );
-  }
+  
 }

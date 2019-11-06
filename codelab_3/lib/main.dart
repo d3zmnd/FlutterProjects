@@ -6,8 +6,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) =>
+    MaterialApp(
       title: 'Flutter Gallery',
       theme: ThemeData(
         fontFamily: 'OpenSans',
@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 2,
-        child: MyHomePage(title: 'Flutter Gallery'),
+        child: MyHomePage(),
       ),
     );
-  }
+  
 }
