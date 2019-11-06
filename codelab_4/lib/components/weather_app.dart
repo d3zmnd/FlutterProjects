@@ -28,7 +28,7 @@ Future<Weather> getCurrentWeather() async {
 class WeatherContainer extends StatelessWidget {
   const WeatherContainer({Key key, @required this.weather})
       : assert(weather != null),
-        super(key: key);
+      super(key: key);
   final Weather weather;
 
   @override
