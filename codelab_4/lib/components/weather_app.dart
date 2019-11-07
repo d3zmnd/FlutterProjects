@@ -41,11 +41,7 @@ class WeatherContainer extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          '${weather.locationName}  ${weather.temperature} °C',
-          style: Theme.of(context).textTheme.display1,
-          textAlign: TextAlign.center,
-        ),
+        text('${weather.locationName}  ${weather.temperature} °C', context),
         Image.network(weather.iconUrl),
       ],
     );
@@ -58,16 +54,8 @@ class WeatherContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '${weather.locationName}',
-              style: Theme.of(context).textTheme.display1,
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              '${weather.temperature} °C',
-              style: Theme.of(context).textTheme.display1,
-              textAlign: TextAlign.center,
-            ),
+            text('${weather.locationName}', context),
+            text('${weather.temperature} °C', context)
           ],
         ),
         Column(
@@ -77,6 +65,13 @@ class WeatherContainer extends StatelessWidget {
           ],
         ),
       ],  
+    );
+  }
+  dynamic text(String txt, dynamic context) {
+    return Text(
+      '$txt',
+      style: Theme.of(context).textTheme.display1,
+      textAlign: TextAlign.center,
     );
   }
 }
