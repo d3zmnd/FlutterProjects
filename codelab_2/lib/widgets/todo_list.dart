@@ -1,39 +1,42 @@
 import 'package:flutter/material.dart';
-import '../colors.dart';
 import '../buttons.dart';
+import '../colors.dart';
+
 
 class TodoList extends StatefulWidget {
   @override
-  createState() => TodoListState();
+   TodoListState createState() => TodoListState();
 }
 
 class TodoListState extends State<TodoList> {
-  List<String> items = [];
-  final ordinal = List<String>.generate(40, (i) => "${i + 1}");
-  TextEditingController _textFieldController = TextEditingController();
+  final List<String> items = <String>[];
+  final List<String> ordinal = List<String>.generate(40, (int i) => '${i + 1}');
+  final TextEditingController _textFieldController = TextEditingController();
   
-  _addNewItem(BuildContext context) {
+  dynamic _addNewItem(BuildContext context){
+    dynamic showDialog;
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Write new action todo'),
+          title: const Text('Write new action todo'),
           content: TextField(
             controller: _textFieldController,
             decoration: InputDecoration(hintText: 'Todo action'),
           ),          
           actions: <Widget>[
             FlatButton(
-              child: Text(cancelButton),
+              child: const Text(cancelButton),
               onPressed: () {
+                _textFieldController.clear();
                 Navigator.of(context).pop();
               },
             ),
             FlatButton(
-              child: Text(addButton),
+              child: const Text(addButton),
               onPressed: () {
                 setState(() {
-                  if (_textFieldController.text.length > 0) {
+                  if (_textFieldController.text.isNotEmpty) {
                     items.add(_textFieldController.text);
                     _textFieldController.clear();
                   }
@@ -47,19 +50,20 @@ class TodoListState extends State<TodoList> {
     );
   }
   
-  _editTodoItem(int index){
-    setState((){
-      if (_textFieldController.text.length > 0) {
+  dynamic _editTodoItem(int index){
+    return setState((){
+      if (_textFieldController.text.isNotEmpty) {
         items.removeAt(index);
         items.insert(index, _textFieldController.text);
         _textFieldController.clear();
       }
     });
   }
-  _promptEditTodoItem(int index) {
+  dynamic _promptEditTodoItem(int index) {
+    dynamic showDialog;
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Edit "${ordinal[index]}" task'),
           content: TextField(
@@ -68,13 +72,11 @@ class TodoListState extends State<TodoList> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text(cancelButton),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              child: const Text(cancelButton),
+              onPressed: () => Navigator.of(context).pop(),
             ),
             FlatButton(
-              child: Text(saveButton),
+              child: const Text(saveButton),
               onPressed: () {
                 _editTodoItem(index);                
                 Navigator.of(context).pop();
@@ -86,10 +88,11 @@ class TodoListState extends State<TodoList> {
     );
   }
 
-  _removeTodoItem(int index) {
+  dynamic _removeTodoItem(int index) {
     setState(() => items.removeAt(index));
   }
-  _promptRemoveTodoItem(int index) {
+  dynamic _promptRemoveTodoItem(int index) {
+    dynamic showDialog;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -97,7 +100,7 @@ class TodoListState extends State<TodoList> {
           title: Text('Are you sure you want to delete "${ordinal[index]}" task?'),
           actions: <Widget>[
             FlatButton(
-              child: Text(cancelButton),
+              child: const Text(cancelButton),
               onPressed: () => Navigator.of(context).pop()
             ),
             FlatButton(
@@ -119,11 +122,11 @@ class TodoListState extends State<TodoList> {
       child: ListView.builder(     
         itemCount: items.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          final item = items[index];
+          final String item = items[index];
           return Dismissible(
             direction: DismissDirection.horizontal,
-                  key: Key(item),
-                  onDismissed: (direction) => _removeTodoItem(index),
+              key: Key(item),
+              onDismissed: (DismissDirection direction) => _removeTodoItem(index),
             child: Card(        
               color: taskColor,
               child:  ListTile(
@@ -131,7 +134,7 @@ class TodoListState extends State<TodoList> {
                 onTap: ()=> _promptEditTodoItem(index),            
                 trailing: IconButton(
                   icon: Icon(Icons.delete, color: iconsColor, size: 36.0,), 
-                  onPressed: ()=> _promptRemoveTodoItem(index)
+                  onPressed: ()=> _promptRemoveTodoItem(index),
                 ),
                 leading: CircleAvatar(
                   backgroundColor: ordinalBgColor,
@@ -151,7 +154,7 @@ class TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo List')
+        title: const Text('Todo List')
       ),
       body: _buildTodoList(),
       floatingActionButton: FloatingActionButton(
@@ -162,5 +165,3 @@ class TodoListState extends State<TodoList> {
     );
   }
 }
-
-
